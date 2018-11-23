@@ -49,7 +49,10 @@ class CurrentEmail
         $this->customerSession = $customerSession;
     }
 
-    public function getValue(): string
+    /**
+     * @return string
+     */
+    public function getValue()
     {
         if ($this->customerEmail) {
             return (string)$this->customerEmail;

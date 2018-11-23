@@ -7,3 +7,14 @@ This specific module allows you to match by a specific email address. When a wor
 - `example.org`
 - `@example.org`
 - `Example`
+
+### Installation
+To install this module, use the following commands. First, install this module using composer. Note that this step will fail if the `Yireo_SalesBlock2` is not installed yet.
+ 
+    composer require yireo/magento2-salesblock2-by-email
+    
+Once this module is installed via composer, you can enable it:
+
+    ./bin/magento module:enable Yireo_SalesBlock2ByEmail
+
+There are no further steps to take. The `Yireo_SalesBlock2` module automatically picks up on things.

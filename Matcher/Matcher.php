@@ -8,14 +8,14 @@
  * @license     Open Source License (OSL v3)
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Yireo\SalesBlock2ByEmail\Matcher;
 
 use Yireo\SalesBlock2\Api\MatcherInterface;
 use Yireo\SalesBlock2\Helper\Data;
 use Yireo\SalesBlock2\Match\Match;
-use Yireo\SalesBlock2\Match\MatchList;
+use Yireo\SalesBlock2\Match\MatchHolder;
 use Yireo\SalesBlock2ByEmail\Utils\CurrentEmail;
 use Yireo\SalesBlock2ByEmail\Utils\EmailMatcher;
 
@@ -36,9 +36,9 @@ class Matcher implements MatcherInterface
     private $emailMatcher;
 
     /**
-     * @var MatchList
+     * @var MatchHolder
      */
-    private $matchList;
+    private $matchHolder;
 
     /**
      * @var Data
@@ -49,18 +49,18 @@ class Matcher implements MatcherInterface
      * Matcher constructor.
      * @param CurrentEmail $currentEmail
      * @param EmailMatcher $emailMatcher
-     * @param MatchList $matchList
+     * @param MatchHolder $matchHolder
      * @param Data $helper
      */
     public function __construct(
         CurrentEmail $currentEmail,
         EmailMatcher $emailMatcher,
-        MatchList $matchList,
+        MatchHolder $matchHolder,
         Data $helper
     ) {
         $this->currentEmail = $currentEmail;
         $this->emailMatcher = $emailMatcher;
-        $this->matchList = $matchList;
+        $this->matchHolder = $matchHolder;
         $this->helper = $helper;
     }
 
@@ -95,11 +95,15 @@ class Matcher implements MatcherInterface
     public function match(string $matchString): bool
     {
         $matchStrings = $this->helper->stringToArray($matchString);
+        $currentEmail = $this->currentEmail->getValue();
+
         foreach ($matchStrings as $matchString) {
-            if ($this->emailMatcher->match($this->currentEmail->getValue(), $matchString)) {
-                $this->addMatch(sprintf('Matched email with %s', $matchString));
-                return true;
+            if (!$this->emailMatcher->match($currentEmail, $matchString)) {
+                continue;
             }
+
+            $this->addMatch(sprintf('Matched email with %s', $matchString));
+            return true;
         }
 
         return false;
@@ -110,7 +114,6 @@ class Matcher implements MatcherInterface
      */
     private function addMatch(string $message)
     {
-        $match = new Match($message);
-        $this->matchList->addMatch($match);
+        $this->matchHolder->setMatch(new Match($message));
     }
 }

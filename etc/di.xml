@@ -8,4 +8,10 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Yireo\SalesBlock2ByEmail\Matcher\Matcher">
+        <arguments>
+            <argument name="currentEmail" xsi:type="object">Yireo\SalesBlock2ByEmail\Utils\CurrentEmail\Proxy</argument>
+        </arguments>
+    </type>
 </config>
