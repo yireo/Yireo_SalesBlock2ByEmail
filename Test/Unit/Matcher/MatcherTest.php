@@ -74,6 +74,7 @@ class MatcherTest extends TestCase
      * @param string $emailValue
      * @param string $matchPattern
      * @param bool $expectedReturnValue
+     * @throws NoMatchException
      */
     public function testMatch(string $emailValue, string $matchPattern, bool $expectedReturnValue)
     {
