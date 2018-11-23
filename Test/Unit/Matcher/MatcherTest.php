@@ -13,7 +13,9 @@ declare(strict_types=1);
 namespace Yireo\SalesBlock2ByEmail\Test\Unit\Matcher;
 
 use PHPUnit\Framework\TestCase;
+use Yireo\SalesBlock2\Exception\NoMatchException;
 use Yireo\SalesBlock2\Helper\Data;
+use Yireo\SalesBlock2\Match\Match;
 use Yireo\SalesBlock2\Match\MatchHolder;
 use Yireo\SalesBlock2ByEmail\Matcher\Matcher as Target;
 use Yireo\SalesBlock2ByEmail\Matcher\Matcher;
@@ -71,17 +73,24 @@ class MatcherTest extends TestCase
      * @dataProvider \Yireo\SalesBlock2ByEmail\Test\Unit\DataProvider\EmailPatterns::getData()
      * @param string $emailValue
      * @param string $matchPattern
-     * @param bool $returnValue
+     * @param bool $expectedReturnValue
      */
-    public function testMatch(string $emailValue, string $matchPattern, bool $returnValue)
+    public function testMatch(string $emailValue, string $matchPattern, bool $expectedReturnValue)
     {
         $this->currentEmailValue = $emailValue;
         $this->currentMatchPattern = $matchPattern;
 
         $target = $this->getTargetObject();
-        $currentValue = $this->getCurrentEmailMock()->getValue();
-        $message = sprintf('Comparing "%s" with "%s"', $currentValue, $matchPattern);
-        $this->assertSame($returnValue, $target->match($matchPattern), $message);
+
+        if ($expectedReturnValue === true) {
+            $currentValue = $this->getCurrentEmailMock()->getValue();
+            $message = sprintf('Comparing "%s" with "%s"', $currentValue, $matchPattern);
+            $this->assertInstanceOf(Match::class, $target->match($matchPattern), $message);
+        } else {
+            $this->expectException(NoMatchException::class);
+            $target->match($matchPattern);
+        }
+
     }
 
     /**
@@ -92,9 +101,8 @@ class MatcherTest extends TestCase
         $currentEmail = $this->getCurrentEmailMock();
         $helper = $this->getHelperMock();
         $emailMatcher = new EmailMatcher();
-        $matchHolder = new MatchHolder();
 
-        $target = new Target($currentEmail, $emailMatcher, $matchHolder, $helper);
+        $target = new Target($currentEmail, $emailMatcher, $helper);
 
         return $target;
     }
