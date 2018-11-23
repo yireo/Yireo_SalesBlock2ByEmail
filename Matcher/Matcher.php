@@ -96,7 +96,10 @@ class Matcher implements MatcherInterface
             }
 
             $message = sprintf('Matched email with %s', $matchString);
-            return new Match($message);
+
+            $match = new Match($message);
+            $match->setVariables(['email' => $currentEmail]);
+            return $match;
         }
 
         throw new NoMatchException(__('No match found'));

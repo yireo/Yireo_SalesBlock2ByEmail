@@ -16,10 +16,7 @@ use PHPUnit\Framework\TestCase;
 use Yireo\SalesBlock2\Exception\NoMatchException;
 use Yireo\SalesBlock2\Helper\Data;
 use Yireo\SalesBlock2\Match\Match;
-use Yireo\SalesBlock2\Match\MatchHolder;
 use Yireo\SalesBlock2ByEmail\Matcher\Matcher as Target;
-use Yireo\SalesBlock2ByEmail\Matcher\Matcher;
-use Yireo\SalesBlock2ByEmail\Test\Unit\DataProvider\EmailPatterns;
 use Yireo\SalesBlock2ByEmail\Utils\CurrentEmail;
 use Yireo\SalesBlock2ByEmail\Utils\EmailMatcher;
 
