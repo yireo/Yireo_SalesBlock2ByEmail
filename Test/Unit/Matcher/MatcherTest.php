@@ -90,7 +90,6 @@ class MatcherTest extends TestCase
             $this->expectException(NoMatchException::class);
             $target->match($matchPattern);
         }
-
     }
 
     /**
