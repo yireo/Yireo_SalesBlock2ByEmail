@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * Yireo SalesBlock2ByEmail for Magento
  *
@@ -8,12 +9,11 @@
  * @license     Open Source License (OSL v3)
  */
 
-declare(strict_types=1);
-
 namespace Yireo\SalesBlock2ByEmail\Utils;
 
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Quote\Api\Data\CartInterface;
+use Yireo\SalesBlock2\Logger\Debugger;
 
 /**
  * Class CurrentEmail
@@ -37,30 +37,39 @@ class CurrentEmail
     private $customerSession;
 
     /**
+     * @var Debugger
+     */
+    private $debugger;
+
+    /**
      * CurrentEmail constructor.
      * @param CartInterface $cart
      * @param CustomerSession $customerSession
+     * @param Debugger $debugger
      */
     public function __construct(
         CartInterface $cart,
-        CustomerSession $customerSession
+        CustomerSession $customerSession,
+        Debugger $debugger
     ) {
         $this->cart = $cart;
         $this->customerSession = $customerSession;
+        $this->debugger = $debugger;
     }
 
     /**
      * @return string
      */
-    public function getValue()
+    public function getValue(): string
     {
-        if ($this->customerEmail) {
+        $this->debugger->debug('Current email: ' . $this->customerEmail);
+        if (!empty($this->customerEmail)) {
             return (string)$this->customerEmail;
         }
 
         // Load the customer-record
         $customer = $this->customerSession->getCustomer();
-        if ($customer->getId() > 0) {
+        if ($customer && $customer->getId() > 0) {
             $customerEmail = $customer->getEmail();
             if (!empty($customerEmail)) {
                 $this->customerEmail = (string)$customerEmail;
@@ -68,15 +77,34 @@ class CurrentEmail
             }
         }
 
-        // Check the quote
+        // Check the quote billing address
         $billingAddress = $this->cart->getBillingAddress();
-        $customerEmail = $billingAddress->getEmail();
-        if (!empty($customerEmail)) {
-            $this->customerEmail = (string)$customerEmail;
-            return $this->customerEmail;
+        if ($billingAddress) {
+            $customerEmail = $billingAddress->getEmail();
+            if (!empty($customerEmail)) {
+                $this->customerEmail = (string)$customerEmail;
+                return $this->customerEmail;
+            }
         }
 
-        $this->customerEmail = (string)$customerEmail;
-        return $this->customerEmail;
+        // Check the quote shipping address
+        $shippingAddress = $this->cart->getShippingAddress();
+        if ($shippingAddress) {
+            $customerEmail = $shippingAddress->getEmail();
+            if (!empty($customerEmail)) {
+                $this->customerEmail = (string)$customerEmail;
+                return $this->customerEmail;
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * @param string $customerEmail
+     */
+    public function setValue(string $customerEmail)
+    {
+        $this->customerEmail = $customerEmail;
     }
 }
