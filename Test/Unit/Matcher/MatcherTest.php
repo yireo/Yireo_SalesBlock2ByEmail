@@ -15,7 +15,7 @@ namespace Yireo\SalesBlock2ByEmail\Test\Unit\Matcher;
 use PHPUnit\Framework\TestCase;
 use Yireo\SalesBlock2\Exception\NoMatchException;
 use Yireo\SalesBlock2\Helper\Data;
-use Yireo\SalesBlock2\Match\Match;
+use Yireo\SalesBlock2\Match\RuleMatch;
 use Yireo\SalesBlock2ByEmail\Matcher\Matcher as Target;
 use Yireo\SalesBlock2ByEmail\Utils\CurrentEmail;
 use Yireo\SalesBlock2ByEmail\Utils\EmailMatcher;
@@ -83,7 +83,7 @@ class MatcherTest extends TestCase
         if ($expectedReturnValue === true) {
             $currentValue = $this->getCurrentEmailMock()->getValue();
             $message = sprintf('Comparing "%s" with "%s"', $currentValue, $matchPattern);
-            $this->assertInstanceOf(Match::class, $target->match($matchPattern), $message);
+            $this->assertInstanceOf(RuleMatch::class, $target->match($matchPattern), $message);
         } else {
             $this->expectException(NoMatchException::class);
             $target->match($matchPattern);

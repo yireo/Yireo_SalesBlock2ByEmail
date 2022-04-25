@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Yireo\SalesBlock2ByEmail\Test\Integration\Frontend;
 
@@ -11,7 +9,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\TestCase;
 use Yireo\SalesBlock2\Helper\Rule;
-use Yireo\SalesBlock2\Match\Match;
+use Yireo\SalesBlock2\Match\RuleMatch;
 use Yireo\SalesBlock2\Test\Integration\RuleProvider;
 
 class RuleHelperTest extends TestCase
@@ -58,7 +56,7 @@ class RuleHelperTest extends TestCase
 
         try {
             $match = $ruleHelper->findMatch();
-            $this->assertInstanceOf(Match::class, $match);
+            $this->assertInstanceOf(RuleMatch::class, $match);
         } catch (NotFoundException $e) {
             $this->assertTrue(false, 'No match found: ' . $e->getMessage());
         }
