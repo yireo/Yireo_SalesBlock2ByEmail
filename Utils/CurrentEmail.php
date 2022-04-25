@@ -13,6 +13,7 @@ namespace Yireo\SalesBlock2ByEmail\Utils;
 
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Quote\Api\Data\CartInterface;
+use Magento\Quote\Model\Quote;
 use Yireo\SalesBlock2\Logger\Debugger;
 
 /**
@@ -24,23 +25,23 @@ class CurrentEmail
     /**
      * @var string
      */
-    private $customerEmail = '';
-
+    private string $customerEmail = '';
+    
     /**
-     * @var CartInterface
+     * @var Quote
      */
     private $cart;
-
+    
     /**
      * @var CustomerSession
      */
     private $customerSession;
-
+    
     /**
      * @var Debugger
      */
     private $debugger;
-
+    
     /**
      * CurrentEmail constructor.
      * @param CartInterface $cart
@@ -57,16 +58,14 @@ class CurrentEmail
         $this->debugger = $debugger;
     }
 
-    /**
-     * @return string
-     */
     public function getValue(): string
     {
         $this->debugger->debug('Current email: ' . $this->customerEmail);
+        
         if (!empty($this->customerEmail)) {
             return (string)$this->customerEmail;
         }
-
+        
         // Load the customer-record
         $customer = $this->customerSession->getCustomer();
         if ($customer && $customer->getId() > 0) {
@@ -76,7 +75,7 @@ class CurrentEmail
                 return $this->customerEmail;
             }
         }
-
+        
         // Check the quote billing address
         $billingAddress = $this->cart->getBillingAddress();
         if ($billingAddress) {
@@ -86,7 +85,7 @@ class CurrentEmail
                 return $this->customerEmail;
             }
         }
-
+        
         // Check the quote shipping address
         $shippingAddress = $this->cart->getShippingAddress();
         if ($shippingAddress) {
@@ -96,10 +95,10 @@ class CurrentEmail
                 return $this->customerEmail;
             }
         }
-
+        
         return '';
     }
-
+    
     /**
      * @param string $customerEmail
      */

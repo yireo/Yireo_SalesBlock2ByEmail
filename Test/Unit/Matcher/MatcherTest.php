@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Yireo SalesBlock2ByEmail for Magento
  *
@@ -7,8 +7,6 @@
  * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
  * @license     Open Source License (OSL v3)
  */
-
-declare(strict_types=1);
 
 namespace Yireo\SalesBlock2ByEmail\Test\Unit\Matcher;
 
@@ -30,13 +28,13 @@ class MatcherTest extends TestCase
     /**
      * @var string
      */
-    private $currentEmailValue = '';
-
+    private string $currentEmailValue = '';
+    
     /**
      * @var string
      */
-    private $currentMatchPattern = '';
-
+    private string $currentMatchPattern = '';
+    
     /**
      * Test the code that is used in the rules conditions
      */
@@ -45,7 +43,7 @@ class MatcherTest extends TestCase
         $target = $this->getTargetObject();
         $this->assertSame($target->getCode(), 'email');
     }
-
+    
     /**
      * Test whether the name makes sense
      */
@@ -54,7 +52,7 @@ class MatcherTest extends TestCase
         $target = $this->getTargetObject();
         $this->assertNotEmpty($target->getName());
     }
-
+    
     /**
      * Test whether the description makes sense
      */
@@ -63,7 +61,7 @@ class MatcherTest extends TestCase
         $target = $this->getTargetObject();
         $this->assertNotEmpty($target->getDescription());
     }
-
+    
     /**
      * Test whether basic matching of email addresses works
      *
@@ -77,9 +75,9 @@ class MatcherTest extends TestCase
     {
         $this->currentEmailValue = $emailValue;
         $this->currentMatchPattern = $matchPattern;
-
+        
         $target = $this->getTargetObject();
-
+        
         if ($expectedReturnValue === true) {
             $currentValue = $this->getCurrentEmailMock()->getValue();
             $message = sprintf('Comparing "%s" with "%s"', $currentValue, $matchPattern);
@@ -89,7 +87,7 @@ class MatcherTest extends TestCase
             $target->match($matchPattern);
         }
     }
-
+    
     /**
      * @return Target
      */
@@ -98,52 +96,39 @@ class MatcherTest extends TestCase
         $currentEmail = $this->getCurrentEmailMock();
         $helper = $this->getHelperMock();
         $emailMatcher = new EmailMatcher();
-
+        
         $target = new Target($currentEmail, $emailMatcher, $helper);
-
+        
         return $target;
     }
-
+    
     /**
      * @return CurrentEmail
      */
     protected function getCurrentEmailMock(): CurrentEmail
     {
         $currentEmail = $this->createMock(
-            CurrentEmail::class,
-            [],
-            [],
-            '',
-            false,
-            false
+            CurrentEmail::class
         );
-
+        
         $currentEmail->expects($this->any())
             ->method('getValue')
-            ->will($this->returnValue($this->currentEmailValue)
-            );
-
+            ->will($this->returnValue($this->currentEmailValue));
+        
         return $currentEmail;
     }
-
+    
     /**
      * @return Data
      */
     protected function getHelperMock(): Data
     {
-        $helper = $this->createMock(
-            Data::class,
-            [],
-            [],
-            '',
-            false,
-            false
-        );
-
+        $helper = $this->createMock(Data::class);
+        
         $helper
             ->method('stringToArray')
             ->will($this->returnValue([$this->currentMatchPattern]));
-
+        
         return $helper;
     }
 }

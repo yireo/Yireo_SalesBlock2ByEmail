@@ -3,7 +3,6 @@
 /**
  * Yireo SalesBlock2ByEmail for Magento
  *
- * @package     Yireo_SalesBlock2ByEmail
  * @author      Yireo (https://www.yireo.com/)
  * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
  * @license     Open Source License (OSL v3)
@@ -18,10 +17,6 @@ use Yireo\SalesBlock2\Match\RuleMatch;
 use Yireo\SalesBlock2ByEmail\Utils\CurrentEmail;
 use Yireo\SalesBlock2ByEmail\Utils\EmailMatcher;
 
-/**
- * Class Matcher
- * @package Yireo\SalesBlock2ByEmail\Matcher
- */
 class Matcher implements MatcherInterface
 {
     /**
