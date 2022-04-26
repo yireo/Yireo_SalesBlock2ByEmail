@@ -30,6 +30,7 @@ jobs:
     env:
       MAGENTO_MARKETPLACE_USERNAME: ${{ secrets.MAGENTO_MARKETPLACE_USERNAME }}
       MAGENTO_MARKETPLACE_PASSWORD: ${{ secrets.MAGENTO_MARKETPLACE_PASSWORD }}
+      REPOSITORY_URL: https://repo.magento.com/
       MODULE_NAME: ${{ secrets.MODULE_NAME }}
       COMPOSER_NAME: ${{ secrets.COMPOSER_NAME }}
     steps:
