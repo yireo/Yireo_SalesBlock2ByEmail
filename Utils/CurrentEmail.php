@@ -16,16 +16,12 @@ use Magento\Quote\Api\Data\CartInterface;
 use Magento\Quote\Model\Quote;
 use Yireo\SalesBlock2\Logger\Debugger;
 
-/**
- * Class CurrentEmail
- * @package Yireo\SalesBlock2ByEmail\Utils
- */
 class CurrentEmail
 {
     /**
      * @var string
      */
-    private string $customerEmail = '';
+    private $customerEmail = '';
     
     /**
      * @var Quote

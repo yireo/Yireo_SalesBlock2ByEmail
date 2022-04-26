@@ -18,22 +18,17 @@ use Yireo\SalesBlock2ByEmail\Matcher\Matcher as Target;
 use Yireo\SalesBlock2ByEmail\Utils\CurrentEmail;
 use Yireo\SalesBlock2ByEmail\Utils\EmailMatcher;
 
-/**
- * Class MatcherTest
- *
- * @package Yireo\SalesBlock2ByEmail\Test\Unit\Matcher
- */
 class MatcherTest extends TestCase
 {
     /**
      * @var string
      */
-    private string $currentEmailValue = '';
+    private $currentEmailValue = '';
     
     /**
      * @var string
      */
-    private string $currentMatchPattern = '';
+    private $currentMatchPattern = '';
     
     /**
      * Test the code that is used in the rules conditions
