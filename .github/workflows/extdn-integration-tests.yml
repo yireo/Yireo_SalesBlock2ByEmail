@@ -37,11 +37,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: extdn/github-actions-m2/magento-integration-tests/7.3@master
-          env:
-            MAGENTO_VERSION: '2.3.6'
-          with:
-            magento_post_install_script: .github/workflows/extdn-integration-tests-post-install.sh
-            composer_version: 1
+        env:
+          MAGENTO_VERSION: '2.3.6'
+        with:
+          magento_post_install_script: .github/workflows/extdn-integration-tests-post-install.sh
+          composer_version: 1
       - uses: extdn/github-actions-m2/magento-integration-tests/7.4@master
         env:
           MAGENTO_VERSION: '2.4.3-p2'
