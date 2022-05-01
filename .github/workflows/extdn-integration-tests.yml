@@ -36,6 +36,7 @@ jobs:
         options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v2
+      - uses: ramsey/composer-install@v2
       - uses: extdn/github-actions-m2/magento-integration-tests/7.3@master
         env:
           MAGENTO_VERSION: '2.3.6'
