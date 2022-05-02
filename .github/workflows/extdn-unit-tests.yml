@@ -16,11 +16,11 @@ jobs:
 
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: echo "COMPOSER_CACHE_DIR=`composer -g config cache-files-dir`" >> $GITHUB_ENV
+        run: mkdir /tmp/composer-files && composer -s config cache-files-dir && /tmp/composer-files
 
       - uses: actions/cache@v3
         with:
-          path: ${{ env.COMPOSER_CACHE_DIR }}
+          path: /tmp/composer-files
           key: ${{ runner.os }}-composer
           restore-keys: ${{ runner.os }}-composer
 

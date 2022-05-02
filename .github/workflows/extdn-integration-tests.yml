@@ -39,30 +39,30 @@ jobs:
 
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: echo "COMPOSER_CACHE_DIR=`composer -g config cache-files-dir`" >> $GITHUB_ENV
+        run: mkdir /tmp/composer-files && composer -s config cache-files-dir && /tmp/composer-files
 
       - uses: actions/cache@v3
         with:
-          path: ${{ env.COMPOSER_CACHE_DIR }}
+          path: /tmp/composer-files
           key: ${{ runner.os }}-composer
           restore-keys: ${{ runner.os }}-composer
 
       - uses: extdn/github-actions-m2/magento-integration-tests/7.3@master
         env:
-          MAGENTO_VERSION: '2.3.6'
+          MAGENTO_VERSION: '2.3.7-p2'
+          COMPOSER_VERSION: 1
         with:
           magento_post_install_script: .github/workflows/extdn-integration-tests-post-install.sh
-          composer_version: 1
       - uses: extdn/github-actions-m2/magento-integration-tests/7.4@master
         env:
           MAGENTO_VERSION: '2.4.3-p2'
+          COMPOSER_VERSION: 2
         with:
           magento_pre_install_script: .github/workflows/extdn-integration-tests-pre-install-m24.sh
           magento_post_install_script: .github/workflows/extdn-integration-tests-post-install.sh
-          composer_version: 2
       - uses: extdn/github-actions-m2/magento-integration-tests/8.1@master
         env:
           MAGENTO_VERSION: '2.4.4'
+          COMPOSER_VERSION: 2
         with:
           magento_post_install_script: .github/workflows/extdn-integration-tests-post-install.sh
-          composer_version: 2
