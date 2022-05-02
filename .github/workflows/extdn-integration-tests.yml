@@ -39,7 +39,7 @@ jobs:
 
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: mkdir /tmp/composer-files && composer -s config cache-files-dir && /tmp/composer-files
+        run: mkdir /tmp/composer-files && composer -g config cache-files-dir /tmp/composer-files
 
       - uses: actions/cache@v3
         with:
