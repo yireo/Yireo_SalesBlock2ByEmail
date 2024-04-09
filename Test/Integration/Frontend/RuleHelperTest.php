@@ -10,7 +10,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
 use Yireo\SalesBlock2\Configuration\Configuration;
 use Yireo\SalesBlock2\Helper\Rule;
-use Yireo\SalesBlock2\Match\RuleMatch;
+use Yireo\SalesBlock2\RuleMatch\RuleMatch;
 use Yireo\SalesBlock2\Matcher\MatcherList;
 use Yireo\SalesBlock2\Test\Integration\RuleProvider;
 use Yireo\SalesBlock2\Utils\CurrentEmail;
