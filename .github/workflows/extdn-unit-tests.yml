@@ -12,26 +12,18 @@ jobs:
     name: Magento 2 Unit Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Get Composer Cache Directory
         id: composer-cache
         run: mkdir /tmp/composer-files && composer -g config cache-files-dir /tmp/composer-files
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: /tmp/composer-files
           key: ${{ runner.os }}-composer
           restore-keys: ${{ runner.os }}-composer
 
-      - uses: extdn/github-actions-m2/magento-unit-tests/7.3@master
+      - uses: extdn/github-actions-m2/magento-unit-tests/8.3@master
         env:
-          MAGENTO_VERSION: '2.3.7-p3'
-
-      - uses: extdn/github-actions-m2/magento-unit-tests/7.4@master
-        env:
-          MAGENTO_VERSION: '2.4.3-p2'
-
-      - uses: extdn/github-actions-m2/magento-unit-tests/8.1@master
-        env:
-          MAGENTO_VERSION: '2.4.4'
+          MAGENTO_VERSION: '2.4.7-p2'

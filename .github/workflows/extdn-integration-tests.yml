@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
         ports:
@@ -35,34 +35,21 @@ jobs:
           - 6379:6379
         options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Get Composer Cache Directory
         id: composer-cache
         run: mkdir /tmp/composer-files && composer -g config cache-files-dir /tmp/composer-files
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: /tmp/composer-files
           key: ${{ runner.os }}-composer
           restore-keys: ${{ runner.os }}-composer
 
-      - uses: extdn/github-actions-m2/magento-integration-tests/7.3@master
+      - uses: extdn/github-actions-m2/magento-integration-tests/8.3@master
         env:
-          MAGENTO_VERSION: '2.3.7-p2'
-          COMPOSER_VERSION: 1
-        with:
-          magento_post_install_script: .github/workflows/extdn-integration-tests-post-install.sh
-      - uses: extdn/github-actions-m2/magento-integration-tests/7.4@master
-        env:
-          MAGENTO_VERSION: '2.4.3-p2'
-          COMPOSER_VERSION: 2
-        with:
-          magento_pre_install_script: .github/workflows/extdn-integration-tests-pre-install-m24.sh
-          magento_post_install_script: .github/workflows/extdn-integration-tests-post-install.sh
-      - uses: extdn/github-actions-m2/magento-integration-tests/8.1@master
-        env:
-          MAGENTO_VERSION: '2.4.4'
+          MAGENTO_VERSION: '2.4.7-p3'
           COMPOSER_VERSION: 2
         with:
           magento_pre_install_script: .github/workflows/extdn-integration-tests-pre-install-m24.sh
