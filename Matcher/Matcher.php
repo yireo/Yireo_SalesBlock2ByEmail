@@ -13,7 +13,7 @@ namespace Yireo\SalesBlock2ByEmail\Matcher;
 use Yireo\SalesBlock2\Api\MatcherInterface;
 use Yireo\SalesBlock2\Exception\NoMatchException;
 use Yireo\SalesBlock2\Helper\Data;
-use Yireo\SalesBlock2\Match\RuleMatch;
+use Yireo\SalesBlock2\RuleMatch\RuleMatch;
 use Yireo\SalesBlock2ByEmail\Utils\CurrentEmail;
 use Yireo\SalesBlock2ByEmail\Utils\EmailMatcher;
 
