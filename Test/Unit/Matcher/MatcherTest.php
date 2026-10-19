@@ -13,7 +13,7 @@ namespace Yireo\SalesBlock2ByEmail\Test\Unit\Matcher;
 use PHPUnit\Framework\TestCase;
 use Yireo\SalesBlock2\Exception\NoMatchException;
 use Yireo\SalesBlock2\Helper\Data;
-use Yireo\SalesBlock2\Match\RuleMatch;
+use Yireo\SalesBlock2\RuleMatch\RuleMatch;
 use Yireo\SalesBlock2ByEmail\Matcher\Matcher as Target;
 use Yireo\SalesBlock2ByEmail\Utils\CurrentEmail;
 use Yireo\SalesBlock2ByEmail\Utils\EmailMatcher;
@@ -108,7 +108,7 @@ class MatcherTest extends TestCase
         
         $currentEmail->expects($this->any())
             ->method('getValue')
-            ->will($this->returnValue($this->currentEmailValue));
+            ->willReturn($this->currentEmailValue);
         
         return $currentEmail;
     }
@@ -122,7 +122,7 @@ class MatcherTest extends TestCase
         
         $helper
             ->method('stringToArray')
-            ->will($this->returnValue([$this->currentMatchPattern]));
+            ->willReturn([$this->currentMatchPattern]);
         
         return $helper;
     }
