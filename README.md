@@ -9,12 +9,19 @@
 
 This module is a helper-module for the [Yireo_SalesBlock2](https://www.yireo.com/software/magento-extensions/salesblock2) extension, that allows you to block orders from being placed, based on specific rules defined in the Magento Admin Panel.
 
-This specific module allows you to match by a specific email address. When a word is added to match an email address, the word is matched case-insensitive and regardless of the position. For instance, the following matches would be found when an order is placed with the email address `info@example.org`:
+This specific module allows you to match by email address. Each line (or comma, semicolon or pipe separated value) of a condition is a pattern:
 
-- `info@`
-- `example.org`
-- `@example.org`
-- `Example`
+| Pattern | Matches |
+|---|---|
+| `john@example.org` | exactly this address |
+| `@example.org` or `example.org` | every address at `example.org` and its subdomains (like `mail.example.org`), but not `myexample.org` |
+| `spam*@*` or `*@example.*` | a wildcard match against the full address (`*` is the only wildcard, at most 3 per pattern) |
+
+Before matching, both the email address and the pattern are normalized: whitespace is trimmed, everything is lowercased, a trailing dot of the domain is removed and international domains are converted to punycode. Sub-addresses (`john+shop@example.org`) are matched as `john@example.org` and dots in Gmail addresses are ignored (`j.o.hn@googlemail.com` is matched as `john@gmail.com`).
+
+Patterns are validated when saving a rule: regular expression characters (like `^`, `$`, `(` or `?`), HTML characters, multiple `@` and patterns matching everything (like `*@*`) are rejected.
+
+**Upgrading from 2.x**: Older versions matched every pattern as a case-insensitive substring (`example` matched `info@example.org`). Since 3.0, a partial address or a partial domain no longer matches. Review your existing rules after upgrading.
 
 ### Installation
 To install this module, use the following commands. First, install this module using composer. Note that this step will fail if the `Yireo_SalesBlock2` is not installed yet.

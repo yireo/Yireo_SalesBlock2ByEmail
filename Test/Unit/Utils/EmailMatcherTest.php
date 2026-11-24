@@ -10,33 +10,17 @@
 
 namespace Yireo\SalesBlock2ByEmail\Test\Unit\Utils;
 
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
+use Yireo\SalesBlock2ByEmail\Test\Unit\DataProvider\EmailPatterns;
 use Yireo\SalesBlock2ByEmail\Utils\EmailMatcher as Target;
 
-/**
- * Class EmailMatcherTest
- *
- * @package Yireo\SalesBlock2ByEmail\Test\Unit\Utils
- */
 class EmailMatcherTest extends TestCase
 {
-    /**
-     * Test whether basic matching of email addresses works
-     *
-     * @dataProvider \Yireo\SalesBlock2ByEmail\Test\Unit\DataProvider\EmailPatterns::getData()
-     */
+    #[DataProviderExternal(EmailPatterns::class, 'getData')]
     public function testMatch(string $emailValue, string $matchPattern, bool $returnValue)
     {
-        $target = $this->getTargetObject();
         $message = sprintf('Comparing "%s" with "%s"', $emailValue, $matchPattern);
-        $this->assertEquals($target->match($emailValue, $matchPattern), $returnValue, $message);
-    }
-
-    /**
-     * @return Target
-     */
-    protected function getTargetObject(): Target
-    {
-        return new Target();
+        $this->assertSame($returnValue, (new Target())->match($emailValue, $matchPattern), $message);
     }
 }
